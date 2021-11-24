@@ -50,8 +50,8 @@ export default function App() {
 
   const [loading, setLoading] = useState(true);
 
-
-  const sortItemsAscendOrDescend = (e) =>  {
+  /*
+  const sortItemsAscendOrDescend = () =>  {
     let items = data;
     if (sortItemsAscend) {
       console.log("descending");
@@ -63,10 +63,24 @@ export default function App() {
       console.log("ascending");
       const data = items.sort((a, b) => Number(a.episode_number) - Number(b.episode_number));
       setData(data);
-      setSortItemsAscend(true);
+      setSortItemsAscend((prevState) => !prevState);
     }
   }
+  */
+
+  const sortItemsAscendOrDescend = () =>  {
+      
+    const copy = list => [...list];
+
+    console.log(sortItemsAscend ? "descending" : "ascending");
+    const items = copy(data).sort((a, b) => 
+      Number(sortItemsAscend ? b.episode_number : a.episode_number) - Number(sortItemsAscend ? a.episode_number : b.episode_number)
+    );
+    setData(items);
+    setSortItemsAscend((prevState) => !prevState);
+  }
   
+
   useEffect(async () => {
     setLoading(true);
     const data = await axios.get('https://raw.githubusercontent.com/RyanHemrick/star_wars_movie_app/master/movies.json');
@@ -89,7 +103,7 @@ export default function App() {
             title={sortItemsAscend ? "Sort Items Descent" : "Sort Items Ascend" }
             color="orange"
             accessibilityLabel="Tap to Decrypt Data"
-            onPress={(e) => sortItemsAscendOrDescend(e)}
+            onPress={sortItemsAscendOrDescend}
             />  
       </View>
     </SafeAreaView>
