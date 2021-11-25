@@ -1,7 +1,6 @@
 import React, {useEffect, useState, FC } from 'react';
 import { FlatList, SafeAreaView, StyleSheet, Text, View, Image, Button } from 'react-native';
 import axios from 'axios';
-import lodash from 'lodash';
 
 interface Movie {
   title: string,
@@ -52,7 +51,7 @@ const App: FC = () =>  {
 
   const sortItems = () =>  {
     console.log(sortItemsAscend ? "descending" : "ascending");
-    const items:Movie[] = data.reverse();
+    const items:Movie[] = [...data].reverse();
     setData(items);
     setSortItemsAscend((prevState:boolean) => !prevState);
   }
